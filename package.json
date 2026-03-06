@@ -21,13 +21,16 @@
   "type": "module",
   "main": "./dist/index.js",
   "scripts": {
-    "ci": "npm run lint && npm run test",
+    "ci": "npm run lint && npm run test && npm run build",
+    "build": "tsdown",
     "format": "biome format",
     "lint": "biome check",
     "test": "vitest run"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.6",
+    "tsdown": "0.21.0",
+    "typescript": "5.9.3",
     "vitest": "4.0.18"
   }
 }
