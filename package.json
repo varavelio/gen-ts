@@ -1,26 +1,32 @@
 {
-	"name": "@varavel/gen",
-	"version": "0.1.0",
-	"description": "Universal code generator library for TypeScript",
-	"keywords": [
-		"varavel",
-		"gen",
-		"codegen",
-		"code-generator"
-	],
-	"homepage": "https://github.com/varavelio/gen-ts#readme",
-	"bugs": {
-		"url": "https://github.com/varavelio/gen-ts/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/varavelio/gen-ts.git"
-	},
-	"license": "MIT",
-	"author": "Varavel LLC",
-	"type": "module",
-	"main": "./dist/index.js",
-	"scripts": {
-		"test": "vitest run"
-	}
+  "name": "@varavel/gen",
+  "version": "0.1.0",
+  "description": "Universal code generator library for TypeScript",
+  "keywords": [
+    "varavel",
+    "gen",
+    "codegen",
+    "code-generator"
+  ],
+  "homepage": "https://github.com/varavelio/gen-ts#readme",
+  "bugs": {
+    "url": "https://github.com/varavelio/gen-ts/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varavelio/gen-ts.git"
+  },
+  "license": "MIT",
+  "author": "Varavel LLC",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "ci": "npm run lint && npm run test",
+    "format": "biome format",
+    "lint": "biome check",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.6"
+  }
 }
