@@ -6,6 +6,6 @@ export default defineConfig({
   dts: true,
   clean: true,
   platform: "neutral",
-  target: "es2018",
+  target: "es2015",
   sourcemap: true,
 });
