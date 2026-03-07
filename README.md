@@ -1,8 +1,32 @@
-# @varavel/gen
+# Varavel Gen for TypeScript
+
+<img src="./logo-200px.png">
+
+<br/>
+
+<p>
+  <a href="https://github.com/varavelio/gen-ts/actions">
+    <img src="https://github.com/varavelio/gen-ts/actions/workflows/ci.yaml/badge.svg" alt="CI status"/>
+  </a>
+  <a href="https://github.com/varavelio/gen-ts/releases/latest">
+    <img src="https://img.shields.io/github/release/varavelio/gen-ts.svg" alt="Release Version"/>
+  </a>
+  <a href="https://www.npmjs.com/package/@varavel/gen">
+    <img src="https://img.shields.io/npm/v/%40varavel%2Fgen" alt="NPM Version"/>
+  </a>
+  <a href="https://github.com/varavelio/gen-ts">
+    <img src="https://img.shields.io/github/stars/varavelio/gen-ts?style=flat&label=github+stars" alt="GitHub Stars"/>
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/github/license/varavelio/gen-ts.svg" alt="License"/>
+  </a>
+</p>
 
 Small, chainable code generator for TypeScript.
 
 It gives you predictable indentation, line handling, and block structure without adding framework-level complexity.
+
+This is a port of [Gen for Golang](https://github.com/varavelio/gen).
 
 ## Install
 
@@ -18,10 +42,10 @@ import { newGenerator } from "@varavel/gen";
 const g = newGenerator();
 
 g.line("function greet(name: string) {")
-  .block(() => {
+g.block(() => {
     g.line('return `Hello, ${name}`;');
   })
-  .line("}");
+g.line("}");
 
 console.log(g.toString());
 ```
