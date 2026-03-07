@@ -147,4 +147,125 @@ describe("safety", () => {
     g.dedent().line("x");
     expect(g.toString()).toBe("x\n");
   });
+
+  it("allows repeated dedent calls safely", () => {
+    const g = newGenerator();
+    g.dedent().dedent().dedent().line("safe");
+    expect(g.toString()).toBe("safe\n");
+  });
+
+  it("toString is stable across multiple reads", () => {
+    const g = newGenerator();
+    g.line("a").line("b");
+    const first = g.toString();
+    const second = g.toString();
+    expect(first).toBe("a\nb\n");
+    expect(second).toBe(first);
+  });
+});
+
+describe("indent configuration", () => {
+  it("supports zero spaces as indentation", () => {
+    const g = newGenerator().withSpaces(0);
+    g.indent().line("x");
+    expect(g.toString()).toBe("x\n");
+  });
+
+  it("treats negative spaces as zero", () => {
+    const g = newGenerator().withSpaces(-4);
+    g.indent().line("x");
+    expect(g.toString()).toBe("x\n");
+  });
+
+  it("applies indentation unit changes only to future writes", () => {
+    const g = newGenerator().withSpaces(2);
+
+    g.line("root");
+    g.indent().line("space");
+    g.withTabs().line("tab");
+    g.withSpaces(4).line("four");
+
+    expect(g.toString()).toBe("root\n  space\n\ttab\n    four\n");
+  });
+});
+
+describe("empty and newline inputs", () => {
+  it("ignores empty inline content", () => {
+    const g = newGenerator();
+    g.inline("").line("x");
+    expect(g.toString()).toBe("x\n");
+  });
+
+  it("ignores empty raw content", () => {
+    const g = newGenerator();
+    g.raw("").line("x");
+    expect(g.toString()).toBe("x\n");
+  });
+
+  it("line with empty content still writes one newline", () => {
+    const g = newGenerator();
+    g.line("").line("x");
+    expect(g.toString()).toBe("\nx\n");
+  });
+
+  it("inline with only newline preserves line-start state", () => {
+    const g = newGenerator().withSpaces(2);
+    g.indent().inline("\n").inline("x");
+    expect(g.toString()).toBe("\n  x");
+  });
+
+  it("raw with trailing newline resets for next indented write", () => {
+    const g = newGenerator().withSpaces(2);
+    g.indent().raw("a\n").inline("b");
+    expect(g.toString()).toBe("a\n  b");
+  });
+});
+
+describe("multiline behavior", () => {
+  it("indents each non-empty subline", () => {
+    const g = newGenerator().withSpaces(2);
+    g.indent().inline("a\nb\nc");
+    expect(g.toString()).toBe("  a\n  b\n  c");
+  });
+
+  it("keeps intentionally blank sublines blank", () => {
+    const g = newGenerator().withSpaces(2);
+    g.indent().inline("a\n\nb");
+    expect(g.toString()).toBe("  a\n\n  b");
+  });
+
+  it("handles content ending with newline inside inline", () => {
+    const g = newGenerator().withSpaces(2);
+    g.indent().inline("a\n").inline("b");
+    expect(g.toString()).toBe("  a\n  b");
+  });
+
+  it("supports multiline content in raw without extra indentation", () => {
+    const g = newGenerator().withSpaces(2).indent();
+    g.raw("a\nb\n").inline("c");
+    expect(g.toString()).toBe("a\nb\n  c");
+  });
+});
+
+describe("block semantics", () => {
+  it("restores previous indentation level after block", () => {
+    const g = newGenerator().withSpaces(2);
+
+    g.indent();
+    g.line("before");
+    g.block(() => {
+      g.line("inside");
+    });
+    g.line("after");
+
+    expect(g.toString()).toBe("  before\n    inside\n  after\n");
+  });
+
+  it("supports empty block callback", () => {
+    const g = newGenerator().withSpaces(2);
+    g.line("start")
+      .block(() => {})
+      .line("end");
+    expect(g.toString()).toBe("start\nend\n");
+  });
 });
