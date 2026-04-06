@@ -17,7 +17,7 @@
     "url": "git+https://github.com/varavelio/gen-ts.git"
   },
   "license": "MIT",
-  "author": "Varavel LLC",
+  "author": "Varavel",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
