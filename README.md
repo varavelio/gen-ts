@@ -22,6 +22,12 @@
   </a>
 </p>
 
+<p>
+  <a href="https://varavel.com">
+    <img src="https://cdn.jsdelivr.net/gh/varavelio/brand@1.0.0/dist/badges/project.svg" alt="A Varavel project"/>
+  </a>
+</p>
+
 Small, chainable code generator for TypeScript.
 
 It gives you predictable indentation, line handling, and block structure without adding framework-level complexity.
@@ -41,10 +47,10 @@ import { newGenerator } from "@varavel/gen";
 
 const g = newGenerator();
 
-g.line("function greet(name: string) {")
+g.line("function greet(name: string) {");
 g.block(() => {
-    g.line('return `Hello, ${name}`;');
-  })
+  g.line("return `Hello, ${name}`;");
+});
 g.line("}");
 
 console.log(g.toString());
